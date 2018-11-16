@@ -1,0 +1,75 @@
+@size-font-34: 34px;
+@size-font-30: 30px;
+@size-font-28: 28px;
+@size-font-26: 26px;
+@size-font-24: 24px;
+@size-font-22: 22px;
+@size-font-20: 20px;
+@size-font-18: 18px;
+
+.btn-radius(@bg-color:@color-font-sub-1, @color:#fff) {
+    width: 320px;
+    height: 66px;
+    border-radius: 66px;
+    background-color: @bg-color;
+    font-size: 28px;
+    color: @color;
+}
+
+.btn-line(@bg-color:@color-font-sub-1, @color:#fff) {
+    display: block;
+    height: 85px;
+    border-radius: 10px;
+    background-color: @bg-color;
+    font-size: 30px;
+    color: @color;
+}
+
+.absolute(@position) {
+    position: absolute;
+    margin: auto;
+    & when (@position=c), (@position=cm) {
+        left: 0;
+        right: 0;
+    }
+    & when (@position=m), (@position=cm) {
+        top: 0;
+        bottom: 0;
+    }
+}
+
+.align(@position, @direction:1) {
+    display: flex;
+    & when (@position=v-center), (@position=center) {
+        flex-wrap: wrap;
+        align-items: center;
+        align-content: center;
+    }
+    & when (@position=h-center), (@position=center) {
+        justify-content: center;
+    }
+    & when (@position=top) {
+        align-items: flex-start;
+    }
+    & when (@position=bottom) {
+        align-items: flex-end;
+    }
+    & when (@position=left) {
+        justify-content: flex-start;
+    }
+    & when (@position=right) {
+        justify-content: flex-end;
+    }
+    & when (@position=h-space-between), (@position=v-space-between) {
+        justify-content: space-between;
+    }
+    & when (@position=h-space-around), (@position=v-space-around) {
+        justify-content: space-around;
+    }
+    & when (@position=v-space-between), (@position=v-space-around) {
+        flex-direction: column;
+    }
+    & when (iskeyword(@direction)) {
+        flex-direction: @direction;
+    }
+}

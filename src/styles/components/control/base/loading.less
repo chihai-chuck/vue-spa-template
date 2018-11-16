@@ -1,0 +1,109 @@
+.base-loading {
+    display: inline-block;
+    vertical-align: middle;
+    text-align: center;
+    .spin {
+
+        position: relative;
+        width: 24px;
+        height: 24px;
+        &.large {
+            width: 30px;
+            height: 30px;
+        }
+        &.small {
+            width: 18px;
+            height: 18px;
+        }
+        > span {
+            .absolute(cm);
+            width: 10%;
+            height: 25%;
+            border-radius: 30%;
+            background-color: currentColor;
+            opacity: 0;
+            animation: fade 1s linear infinite;
+            &:nth-child(1) {
+                transform: rotate(0deg) translate(0, -142%);
+                animation-delay: 0s;
+            }
+            &:nth-child(2) {
+                transform: rotate(30deg) translate(0, -142%);
+                animation-delay: -.9167s;
+            }
+            &:nth-child(3) {
+                transform: rotate(60deg) translate(0, -142%);
+                animation-delay: -.833s;
+            }
+            &:nth-child(4) {
+                transform: rotate(90deg) translate(0, -142%);
+                animation-delay: -.75s;
+            }
+            &:nth-child(5) {
+                transform: rotate(120deg) translate(0, -142%);
+                animation-delay: -.667s;
+            }
+            &:nth-child(6) {
+                transform: rotate(150deg) translate(0, -142%);
+                animation-delay: -.5833s;
+            }
+            &:nth-child(7) {
+                transform: rotate(180deg) translate(0, -142%);
+                animation-delay: -.5s;
+            }
+            &:nth-child(8) {
+                transform: rotate(210deg) translate(0, -142%);
+                animation-delay: -.41667s;
+            }
+            &:nth-child(9) {
+                transform: rotate(240deg) translate(0, -142%);
+                animation-delay: -.333s;
+            }
+            &:nth-child(10) {
+                transform: rotate(270deg) translate(0, -142%);
+                animation-delay: -.25s;
+            }
+            &:nth-child(11) {
+                transform: rotate(300deg) translate(0, -142%);
+                animation-delay: -.1667s;
+            }
+            &:nth-child(12) {
+                transform: rotate(330deg) translate(0, -142%);
+                animation-delay: -.0833s;
+            }
+        }
+        @keyframes fade {
+            from {opacity: 1;}
+            to {opacity: .25;}
+        }
+    }
+    .custom {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    &.fix {
+        z-index: 10;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        .spin {
+            .custom;
+        }
+    }
+}
+
+.fade-enter-active,
+.fade-leave-active,
+.initFade-leave-active {
+    opacity: 1;
+    transition: opacity .3s linear;
+}
+.fade-enter,
+.fade-leave-to,
+.initFade-leave-to {
+    opacity: 0;
+}

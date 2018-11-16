@@ -1,0 +1,44 @@
+.base-cell > li {
+    position: relative;
+    display: flex;
+    width: 100%;
+    min-height: 100px;
+    padding: 30px;
+    background-color: #fff;
+    font-size: @size-font-26;
+    &:not(:last-child) {
+        .split-line();
+    }
+    &.not-line,
+    &.spacing {
+        &::before {
+            border: 0;
+        }
+    }
+    &.arrow {
+        padding-right: 54px;
+        &::after {
+            content: "\e71a";
+            position: absolute;
+            right: 20px;
+            color: @color-line-1;
+        }
+    }
+    &.spacing {
+        margin-bottom: 20px;
+    }
+    .wrapper {
+        display: inline-block;
+        margin-right: 30px;
+        .icon {
+            margin-right: 20px;
+            font-size: 40px;
+        }
+    }
+    .text {
+        flex: 1;
+        word-break: break-all;
+        text-align: right;
+        color: @color-font-4;
+    }
+}

@@ -1,0 +1,116 @@
+.directive-image {
+    position: relative;
+    overflow: hidden;
+    background-color: @color-font-5;
+    &::before,
+    &-item {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+    &::before {
+        .align(center);
+        content: "图片加载中";
+        font-size: @size-font-26;
+        color: @color-font-4;
+    }
+    &-item {
+        z-index: 1;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+    }
+}
+
+[class*="popup-"] {
+    position: absolute;
+    width: 100%;
+    transition: none .3s;
+}
+.popup-fade {
+    transition-property: opacity;
+}
+[class*="popup-fade-in-"] {
+    left: 0;
+    transition-property: opacity, transform;
+}
+.popup-fade-in-up {
+    bottom: 0;
+}
+.popup-fade-in-bottom {
+    top: 0;
+}
+.fade-enter-active [class*="popup-fade"],
+.fade-leave-active [class*="popup-fade"] {
+    opacity: 1;
+}
+.fade-enter-active [class*="popup-fade-in-"],
+.fade-leave-active [class*="popup-fade-in-"] {
+    transform: translate3d(0, 0, 0);
+}
+.fade-enter [class*="popup-fade"],
+.fade-leave-to [class*="popup-fade"] {
+    opacity: 0;
+}
+.fade-enter .popup-fade-in-up,
+.fade-leave-to .popup-fade-in-up {
+    transform: translate3d(0, 500px, 0);
+}
+.fade-enter .popup-fade-in-bottom,
+.fade-leave-to .popup-fade-in-bottom {
+    transform: translate3d(0, -200px, 0);
+}
+
+.pswp {
+    z-index: 9999 !important;
+}
+
+.base-cell li {
+    input {
+        width: 350px;
+    }
+}
+
+.bg-title {
+    position: relative;
+    padding: 0 48px;
+    margin: 27px 0;
+    color: @color-font-3;
+    font-size: @size-font-24;
+    .line-bg {
+        position: absolute;
+        top: 50%;
+        left: 0;
+        transform: translateY(-50%);
+        background: @base-back;
+        width: 5px;
+        height: 100%;
+    }
+}
+
+.data-empty {
+    .align(center);
+    width: 100%;
+    height: 100%;
+    &::before {
+        content: "\e7b0";
+        width: 160px;
+        height: 160px;
+        line-height: 160px;
+        text-align: center;
+        font-size: 160px;
+        color: #ccc;
+    }
+    &::after {
+        content: "暂无数据";
+        width: 100%;
+        height: 36px;
+        margin-top: 20px;
+        line-height: 36px;
+        text-align: center;
+        font-size: 32px;
+        color: #ccc;
+    }
+}

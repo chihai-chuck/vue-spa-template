@@ -1,0 +1,193 @@
+@import "font/icon-base";
+* {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    list-style-type: none;
+    -webkit-text-size-adjust: none;
+    zoom: 1;
+    resize: none;
+    font-family: PingFang SC, Microsoft YaHei, iconfont, sans-serif;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    -webkit-touch-callout: none;
+    highlight-color: transparent;
+    //touch-action: none;
+}
+input:-webkit-autofill { -webkit-box-shadow: 0 0 0 1000px #fff inset; }
+/* 让Chrome内核在自动填表的时候不显示黄底 */
+button::-moz-focus-inner { border-color: transparent !important; }
+/* 去除火狐浏览器点击button时出现的边框虚线 */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button { /* 去除number类型输入框右侧的spinners */
+    -webkit-appearance: none;
+    margin: 0;
+}
+:active, :focus, ::-moz-focus-inner { outline: none; }
+::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+}
+::-webkit-input-placeholder {
+    color: #ccc;
+}
+html,
+body {
+    width: 100%;
+    height: 100%;
+}
+body {
+    font-weight: normal;
+    background-color: @color-back;
+    font-size: 30px;
+    color: @color-font-1;
+    cursor: default;
+}
+em { font-style: normal; }
+svg:not(:root) { overflow: hidden; }
+img { -ms-interpolation-mode: bicubic; }
+h1, h2, h3, h4, h5, h6 { font-weight: normal; }
+input, button, textarea { -webkit-appearance: none; }
+input, button, textarea, select, optgroup, option {
+    font-family: inherit;
+    font-size: inherit;
+    font-style: inherit;
+    font-weight: inherit;
+}
+input:disabled {
+    background-color: transparent;
+    color: @color-font-5;
+}
+table {
+    table-layout: fixed;
+    border-collapse: collapse;
+}
+a {
+    text-decoration: none;
+    color: inherit;
+}
+i { /* 所有i标签均用于图标 */
+    display: inline-block;
+    text-align: center;
+    font-style: normal;
+}
+iframe {
+    display: block;
+}
+article {
+    all: initial !important;
+}
+/* 清除浮动 Start */
+.clear-float {
+    zoom: 1;
+    &:after {
+        display: block;
+        content: "";
+        height: 0;
+        visibility: hidden;
+        clear: both;
+    }
+}
+/* 清除浮动 End */
+
+.text-left {
+    text-align: left;
+}
+.text-right {
+    text-align: right;
+}
+.text-center {
+    text-align: center;
+}
+.align-v-center-inline:after {
+    content: "";
+    display: inline-block;
+    width: 0;
+    height: 100%;
+    vertical-align: middle;
+}
+.align-v-center-inline > * {
+    display: inline-block;
+    vertical-align: middle;
+}
+[class*="align-"] {
+    display: flex;
+}
+.align-v-center {
+    flex-wrap: wrap;
+    align-items: center;
+    align-content: center;
+}
+.align-h-center {
+    justify-content: center;
+}
+.align-center {
+    flex-wrap: wrap;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+}
+.align-top {
+    align-items: flex-start;
+}
+.align-bottom {
+    align-items: flex-end;
+}
+.align-left {
+    justify-content: flex-start;
+}
+.align-right {
+    justify-content: flex-end;
+}
+.align-h-space-between,
+.align-v-space-between {
+    justify-content: space-between;
+}
+.align-h-space-around,
+.align-v-space-around {
+    justify-content: space-around;
+}
+.align-v-space-between,
+.align-v-space-around {
+    flex-direction: column;
+}
+
+.absolute-c,
+.absolute-m,
+.absolute-cm {
+    position: absolute;
+    margin: auto;
+}
+.absolute-c,
+.absolute-cm {
+    left: 0;
+    right: 0;
+}
+.absolute-m,
+.absolute-cm {
+    top: 0;
+    bottom: 0;
+}
+.overflow { /* 超出元素的多余文字不换行，将多余部分替换成... */
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+.scroll-page {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+}
+.scroll-box {
+    flex: 1;
+    position: relative;
+    width: 100%;
+}
+[class*="page-"] {
+    width: 100%;
+}

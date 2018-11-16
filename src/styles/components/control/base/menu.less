@@ -1,0 +1,51 @@
+.base-menu {
+    width: 100%;
+    height: 70px;
+    display: flex;
+    background-color: #fff;
+    &.fixed {
+        position: fixed;
+        z-index: 4900;
+    }
+    &.main-bg {
+        background-color: @color-main;
+    }
+    &.line {
+        border-bottom: 1px solid @color-line-1;
+    }
+    &.type1 {
+        .active p {
+            border-bottom: 2px solid @color-main;
+            color: @color-main;
+        }
+        p {
+            // padding: 0 8px;
+            border-bottom: 2px solid transparent;
+        }
+    }
+    &.type2 {
+        .active i {
+            transition: transform .3s ease;
+            transform: rotate(180deg);
+        }
+        i {
+            font-size: 18px;
+            margin-left: 5px;
+            transition: transform .3s ease;
+            transform: rotate(0deg);
+        }
+    }
+    li {
+        .align(center);
+        flex: 1;
+        height: 100%;
+        p {
+            .align(center);
+            position: relative;
+            height: 100%;
+            text-align: center;
+            font-size: @size-font-26;
+            color: @color-font-4;
+        }
+    }
+}

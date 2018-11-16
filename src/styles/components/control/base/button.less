@@ -1,0 +1,35 @@
+.base-button {
+    height: 70px;
+    padding: 0 20px;
+    vertical-align: middle;
+    border-radius: 10px;
+    font-size: @size-font-28;
+    &.type- {
+        &default {
+            background-color: #fff;
+            border: 1px solid @color-line-1;
+            color: @color-font-3;
+        }
+        &primary {
+            background-color: @base-back;
+            color: #fff;
+        }
+    }
+    &.long {
+        width: 100%;
+    }
+    &.disabled {
+        color: @color-font-3 !important;
+        background-color: @color-btn-disabled !important;
+    }
+    &.center {
+        display: block;
+        margin: 0 auto;
+    }
+    > i {
+        vertical-align: middle;
+        &::before {
+            margin-right: 5px;
+        }
+    }
+}

@@ -1,0 +1,69 @@
+.base-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    > * {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+    .bg {
+        z-index: 1;
+        transition: opacity .3s;
+    }
+    .content {
+        z-index: 2;
+        &.flex {
+            display: flex;
+            flex-direction: column;
+        }
+        .box {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .msgbox {
+            width: 100%;
+            padding-bottom: 10px;
+            background-color: #fff;
+            > .msgbox-title {
+                .align(v-center);
+                position: relative;
+                width: 100%;
+                height: 80px;
+                margin-bottom: 10px;
+                padding: 0 30px;
+                font-size: @size-font-26;
+                > i {
+                    .align(center);
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    width: 80px;
+                    height: 80px;
+                }
+            }
+        }
+    }
+}
+
+.fade-enter-active,
+.fade-leave-active {
+    opacity: 1;
+    transition: opacity .3s;
+    .bg {
+        opacity: 1;
+    }
+}
+.fade-enter,
+.fade-leave-to {
+    opacity: 1;
+    .bg {
+        opacity: 0;
+    }
+}
