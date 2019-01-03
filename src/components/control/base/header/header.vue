@@ -71,7 +71,7 @@
         * 2018-7-27 整合所有滚动渐变参数到fade，所有渐变方式及配置都通过fade参数传入。 by迟海
 -->
 <template>
-    <div class="base-header" :class="{'pointer-none':config.opacity<.2&&!fadeMode.background}" v-if="!root">
+    <div class="base-header" :class="{'pointer-none':config.opacity<.2&&!fadeMode.background,root}" v-if="!root">
         <p class="status-bar" :style="styleMerge({position,height:statusBar},scrollFadeOpacity)"></p>
         <p class="status-bar-distance" :style="{height:statusBar}" v-if="position==='fixed'||position==='absolute'"></p>
         <div class="header"

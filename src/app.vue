@@ -1,6 +1,6 @@
 <template>
     <div class="app-wrapper">
-        <Header ref="rootHeader" style="display:none;" root></Header>
+        <Header ref="rootHeader" root></Header>
         <keep-alive :include="$store.state.config.includedPage.join(',')">
             <router-view v-if="routerLifecycle"></router-view>
         </keep-alive>
