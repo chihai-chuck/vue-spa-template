@@ -1,8 +1,14 @@
 module.exports = {
     plugins: {
         autoprefixer: {},
-        "postcss-px2rem": {
-            remUnit: 40
+        "postcss-pxtorem": {
+            rootValue: 40,
+            propList: ["*"],
+            minPixelValue: 2,
+            selectorBlackList: [
+                "van",
+                "pswp"
+            ]
         }
     }
 };

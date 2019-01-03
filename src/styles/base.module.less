@@ -38,7 +38,7 @@
 */
 .split-line(@direction:bottom, @color:@color-line-1, @radius:0, @position:relative) {
     position: @position;
-    &:before {
+    &::after {
         content: "";
         position: absolute;
         top: 0;
@@ -51,53 +51,77 @@
         pointer-events: none;
         border-radius: 2 * @radius;
         .split-lines(0) {
-            border-top: 1px solid @color;
-            border-left: 1px solid @color;
+            border-top: 1PX solid @color;
+            border-left: 1PX solid @color;
         }
         .split-lines(1) {
-            border-top: 1px solid @color;
-            border-right: 1px solid @color;
+            border-top: 1PX solid @color;
+            border-right: 1PX solid @color;
         }
         .split-lines(2) {
-            border-bottom: 1px solid @color;
-            border-left: 1px solid @color;
+            border-bottom: 1PX solid @color;
+            border-left: 1PX solid @color;
         }
         .split-lines(3) {
-            border-bottom: 1px solid @color;
-            border-right: 1px solid @color;
+            border-bottom: 1PX solid @color;
+            border-right: 1PX solid @color;
         }
         .split-lines(4) {
-            border-top: 1px solid @color;
-            border-bottom: 1px solid @color;
+            border-top: 1PX solid @color;
+            border-bottom: 1PX solid @color;
         }
         .split-lines(5) {
-            border-left: 1px solid @color;
-            border-right: 1px solid @color;
+            border-left: 1PX solid @color;
+            border-right: 1PX solid @color;
         }
         .split-lines(6) {
-            border-top: 1px solid @color;
+            border-top: 1PX solid @color;
             .split-lines(5);
         }
         .split-lines(7) {
-            border-bottom: 1px solid @color;
+            border-bottom: 1PX solid @color;
             .split-lines(5);
         }
         .split-lines(8) {
-            border-left: 1px solid @color;
+            border-left: 1PX solid @color;
             .split-lines(4);
         }
         .split-lines(9) {
-            border-right: 1px solid @color;
+            border-right: 1PX solid @color;
             .split-lines(4);
         }
         & when (iskeyword(@direction)) {
-            border-@{direction}: 1px solid @color;
+            border-@{direction}: 1PX solid @color;
             & when (@direction=all) {
-                border: 1px solid @color;
+                border: 1PX solid @color;
             }
         }
         & when (isnumber(@direction)) {
             .split-lines(@direction);
+        }
+    }
+}
+
+/* 边框线 */
+// @direction 只支持top、bottom、left、right
+.border-line(@direction:bottom, @color:@color-line-1, @type:solid, @position:relative) {
+    position: @position;
+    &::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        box-sizing: border-box;
+        width: 200%;
+        height: calc(200% - 1px);
+        transform-origin: 0 0;
+        pointer-events: none;
+        border-@{direction}: 1PX @type @color;
+        & when (@direction=top), (@direction=bottom) {
+            transform: scale(1, .5);
+        }
+        & when (@direction=left), (@direction=right) {
+            transform: scale(.5, 1);
         }
     }
 }
@@ -124,7 +148,7 @@
 
 .clear-float() {
     zoom: 1;
-    &:after {
+    &::after {
         display: block;
         content: "";
         height: 0;

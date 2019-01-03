@@ -39,7 +39,7 @@
                 }, callback);
             });*/
 
-            // 重载router当前页面（不刷新页面，重跑一遍页面生命周期）
+            /* 重载router当前页面（不刷新页面，重跑一遍页面生命周期） */
             this.$eventHub.$on("currentPageRouterRefresh", () => {
                 appLog("currentPageRouterRefresh");
                 this.routerLifecycle = false;

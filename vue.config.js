@@ -1,4 +1,7 @@
+/* eslint-disable */
 const path = require("path");
+const styleLintPlugin = require("stylelint-webpack-plugin");
+
 const resolve = dir => path.join(__dirname, dir);
 
 module.exports = {
@@ -15,6 +18,16 @@ module.exports = {
                 }
             }
         }
+    },
+    configureWebpack: {
+        plugins: [
+            new styleLintPlugin({
+                files: [
+                    // "src/**/*.vue",
+                    "src/styles/**/*.less"
+                ]
+            })
+        ]
     },
     chainWebpack: config => {
         config.resolve.alias

@@ -1,12 +1,14 @@
 .base-checkbox {
+    display: inline-block;
     height: 28px;
     line-height: 28px;
     font-size: @size-font-26;
     color: @color-font-4;
+    user-select: none;
     &::before {
         margin-right: 10px;
     }
     &.checked::before {
-        color: @color-main;
+        color: @color-active-word;
     }
 }

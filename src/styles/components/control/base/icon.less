@@ -1,7 +1,14 @@
 .base-icon {
-    width: 1em;
-    height: 1em;
-    vertical-align: -.15em;
-    fill: currentColor;
-    overflow: hidden;
+    &.multiple {
+        width: 1em;
+        height: 1em;
+        vertical-align: -.15em;
+        fill: currentColor;
+        overflow: hidden;
+    }
+    &.single {
+        &.center {
+            .align(center);
+        }
+    }
 }

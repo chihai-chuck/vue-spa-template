@@ -10,39 +10,41 @@
     },
     "dependencies": {
         "axios": "^0.18.0",
-        "eruda": "^1.5.4",
-        "fastclick": "^1.0.6",
-        "mint-ui": "^2.2.13",
         "normalize.css": "^8.0.1",
-        "vue": "^2.5.17",
-        "vue-router": "^3.0.1",
+        "photoswipe": "^4.1.2",
+        "vant": "^1.5.1",
+        "vue": "^2.5.21",
+        "vue-router": "^3.0.2",
         "vuex": "^3.0.1"
     },
     "devDependencies": {
-        "@vue/cli-plugin-babel": "^3.1.1",
-        "@vue/cli-plugin-eslint": "^3.1.5",
-        "@vue/cli-service": "^3.1.4",
+        "@mapbox/stylelint-processor-arbitrary-tags": "^0.2.0",
+        "@vue/cli-plugin-babel": "^3.2.2",
+        "@vue/cli-plugin-eslint": "^3.2.2",
+        "@vue/cli-service": "^3.2.3",
         "@vue/eslint-config-prettier": "^4.0.1",
         "babel-eslint": "^10.0.1",
-        "eslint": "^5.8.0",
+        "babel-plugin-import": "^1.11.0",
+        "eslint": "^5.11.1",
         "eslint-plugin-html": "^5.0.0",
-        "eslint-plugin-vue": "^5.0.0-0",
-        "less": "^3.0.4",
+        "eslint-plugin-vue": "^5.1.0",
+        "less": "^3.9.0",
         "less-loader": "^4.1.0",
         "lint-staged": "^7.2.2",
-        "postcss-px2rem": "^0.3.0",
+        "postcss-pxtorem": "^4.0.1",
         "sass-resources-loader": "^2.0.0",
-        "vue-template-compiler": "^2.5.17"
+        "stylelint": "^9.9.0",
+        "stylelint-config-standard": "^18.2.0",
+        "stylelint-order": "^2.0.0",
+        "stylelint-processor-html": "^1.0.0",
+        "stylelint-webpack-plugin": "^0.10.5",
+        "vue-template-compiler": "^2.5.21"
     },
     "gitHooks": {
         "pre-commit": "lint-staged"
     },
     "lint-staged": {
-        "*.js": [
-            "vue-cli-service lint",
-            "git add"
-        ],
-        "*.vue": [
+        "*.{js,vue}": [
             "vue-cli-service lint",
             "git add"
         ]

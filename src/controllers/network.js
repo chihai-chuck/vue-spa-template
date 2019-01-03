@@ -1,22 +1,21 @@
 import axios from "axios";
-import qs from "qs";
-
-// import CryptoJS from 'crypto-js';
 
 import api from "^config/api";
 
 export default {
-    apiURL: process.env.NODE_ENV === "development" ? {
-        origin: "http://php.javaframework.cn",
-        ws: "wss://caipiao.goodluckchina.net:2122",
-        trendWs: "http://caipiao.goodluckchina.net:2124",
-        baiduAk: 'gRSmFOB0hvyrNgCykang7lhXHYfVsLZn'
-    } : {
-        origin: "https://caipiao.goodluckchina.net",
-        ws: "wss://caipiao.goodluckchina.net:2122",
-        trendWs: "http://caipiao.goodluckchina.net:2124",
-        baiduAk: 'gRSmFOB0hvyrNgCykang7lhXHYfVsLZn'
-    },
+    apiURL: process.env.NODE_ENV === "development" ?
+        {
+            origin: "http://php.javaframework.cn",
+            ws: "wss://caipiao.goodluckchina.net:2122",
+            trendWs: "http://caipiao.goodluckchina.net:2124",
+            baiduAk: 'gRSmFOB0hvyrNgCykang7lhXHYfVsLZn'
+        } :
+        {
+            origin: "https://caipiao.goodluckchina.net",
+            ws: "wss://caipiao.goodluckchina.net:2122",
+            trendWs: "http://caipiao.goodluckchina.net:2124",
+            baiduAk: 'gRSmFOB0hvyrNgCykang7lhXHYfVsLZn'
+        },
     api,
     request(options) {
         return new Promise((resolve, reject) => {
@@ -37,7 +36,7 @@ export default {
         }
     },
     http(options) {
-        const _options = Object.assign({}, {
+        const _options = Object.assign({
             type: "post", // 请求方式
             url: "", // 请求地址
             fullUrl: "", // 全地址，用于调试时使用，如果全地址值不为false时，请求地址将会直接使用这个地址，而不去拼接api地址
@@ -71,56 +70,29 @@ export default {
 
         const offlineCatch = _options.reconnect.status ? 0 : Date.now();
 
-        const axiosInterceptors = _options.reconnect.status ? _options.reconnect.interceptors : axios.interceptors.response.use(response => {
-            return response;
-        }, error => {
-            if(error && error.response) {
-                switch(error.response.status) {
-                    case 400:
-                        error.message = '请求错误';
-                        break;
-                    case 401:
-                        error.message = '未授权，请登录';
-                        break;
-                    case 403:
-                        error.message = '拒绝访问';
-                        break;
-                    case 404:
-                        error.message = `请求地址错误: ` + (_options.url || _options.fullUrl);
-                        break;
-                    case 408:
-                        error.message = '请求超时';
-                        break;
-                    case 500:
-                        error.message = '服务器内部错误';
-                        break;
-                    case 501:
-                        error.message = '服务未实现';
-                        break;
-                    case 502:
-                        error.message = '网关错误';
-                        break;
-                    case 503:
-                        error.message = '服务不可用';
-                        break;
-                    case 504:
-                        error.message = '网关超时';
-                        break;
-                    case 505:
-                        error.message = 'HTTP版本不受支持';
-                        break
-                    // no default
+        const axiosInterceptors = _options.reconnect.status ?
+            _options.reconnect.interceptors :
+            axios.interceptors.response.use(response => response, error => {
+                if(error && error.response) {
+                    error.message = {
+                        400: "请求错误",
+                        401: "未授权，请登录",
+                        403: "拒绝访问",
+                        404: "请求地址错误: " + (_options.url || _options.fullUrl),
+                        408: "请求超时",
+                        500: "服务器内部错误",
+                        501: "服务未实现",
+                        502: "网关错误",
+                        503: "服务不可用",
+                        504: "网关超时",
+                        505: "HTTP版本不受支持"
+                    }[error.response.status];
                 }
-            }
-            return Promise.reject(error);
-        });
-
-        // if(this.requesting.includes(_options.url || _options.fullUrl)) return; // 防止在请求连接还未结束时发起相同请求造成网络阻塞及服务器压力
+                return Promise.reject(error);
+            });
 
         if(_options.loadingIcon && !_options.reconnect.status) {
-            vueObj.baseUI.$Loading.show({
-                background: "transparent"
-            });
+            vueObj.baseUI.Loading.show();
         }
 
         this.requestingCtrl("add", _options.url || _options.fullUrl);
@@ -132,36 +104,29 @@ export default {
             data: _options.data,
             params: _options.params,
             timeout: _options.timeout,
-            transformRequest: [data => {
-                return qs.stringify(data);
-            }],
             ...options.others
         }).then(res => {
             this.requestingCtrl("del", _options.url || _options.fullUrl);
-
-            // if(typeof res.data === 'string') res.data = this.responseTripleDesEncode(res.data);
 
             const data = res.data;
 
             networkLog("success", "#0000ff", JSON.parse(JSON.stringify(data)));
 
-            if(_options.loadingIcon) vueObj.baseUI.$Loading.hide();
+            if(_options.loadingIcon) vueObj.baseUI.Loading.hide();
 
             axios.interceptors.request.eject(axiosInterceptors);
             if(_options.successAll) {
                 _options.success(data);
             } else {
-                if(data.code === 1 || data.code === "00" || data.httpCode === 200) {
-                    if(typeof _options.success === "function") _options.success(data);
+                if(data.code === 600) {
+                    if(typeof _options.success === "function") _options.success(data.result);
                 } else {
                     if(!_options.errorDisabled) {
                         this.responseErrorDist(data);
                     }
-                    if(_options.errorDisabled instanceof Array && !_options.errorDisabled.includes(res.data.code)) {
+                    if(_options.errorDisabled instanceof Array && !_options.errorDisabled.includes(data.code)) {
                         this.responseErrorDist(data);
-                    } else {
-                        if(typeof _options.error === "function") _options.error(data);
-                    }
+                    } else if(typeof _options.error === "function") _options.error(data);
                 }
                 if(_options.complete) _options.complete(data);
             }
@@ -178,56 +143,53 @@ export default {
                             interceptors: axiosInterceptors
                         }
                     }));
+                } else if(Date.now() - offlineCatch < _options.timeout) {
+                    networkLog("reconnect", "#ff0000", `检测到接口请求非正常超时，判断可能是网络断开状态，等待3秒后将再次重新发起请求`);
+                    setTimeout(() => {
+                        this.http(Object.assign({}, _options, {
+                            reconnect: {
+                                status: true,
+                                interceptors: axiosInterceptors
+                            }
+                        }));
+                    }, 3E3);
                 } else {
-                    if(Date.now() - offlineCatch < _options.timeout) {
-                        networkLog("reconnect", "#ff0000", `检测到接口请求非正常超时，判断可能是网络断开状态，等待3秒后将再次重新发起请求`);
-                        setTimeout(() => {
-                            this.http(Object.assign({}, _options, {
-                                reconnect: {
-                                    status: true,
-                                    interceptors: axiosInterceptors
-                                }
-                            }));
-                        }, 3E3);
-                    } else {
-                        networkLog("discontinue", "#ff0000", `接口连续重新请求${_options.reconnect.timeoutReconnectNum}次超时，停止继续请求`);
-                        if(_options.loadingIcon) vueObj.baseUI.$Loading.hide();
-                        axios.interceptors.request.eject(axiosInterceptors);
-                        vueObj.mintUI.Toast("您的网络不稳定，请检查网络设置");
-                        if(_options.complete) _options.complete(err);
-                    }
+                    networkLog("discontinue", "#ff0000", `接口连续重新请求${_options.reconnect.timeoutReconnectNum}次超时，停止继续请求`);
+                    if(_options.loadingIcon) vueObj.baseUI.Loading.hide();
+                    axios.interceptors.request.eject(axiosInterceptors);
+                    vueObj.$toast("您的网络不稳定，请检查网络设置");
+                    if(_options.complete) _options.complete(err);
                 }
                 return;
             }
             networkLog("error", "#ff0000", errString);
-            if(_options.loadingIcon) vueObj.baseUI.$Loading.hide();
-            vueObj.mintUI.Toast(err.message);
+            if(_options.loadingIcon) vueObj.baseUI.Loading.hide();
+            vueObj.$toast(err.message);
             if(_options.complete) _options.complete(err);
         });
     },
     responseErrorDist(err) {
-        switch(true) {
+        switch (true) {
             case err.code === "-100":
-                vueObj.mintUI.MessageBox.close();
+                vueObj.$dialog.close();
                 vueObj.$store.dispatch("userLogout");
                 break;
-            // 超时
+            /* 超时 */
             case err.code === 415:
-                vueObj.mintUI.MessageBox("提示", err.msg);
+                vueObj.$dialog.alert({
+                    message: err.msg
+                });
                 break;
-            // 统一约定488为模态框弹窗
+            /* 统一约定488为模态框弹窗 */
             case err.code === 488:
-                vueObj.mintUI.MessageBox("提示", err.msg);
+                vueObj.$dialog.alert({
+                    message: err.msg
+                });
                 break;
             default:
-                vueObj.mintUI.MessageBox("提示", err.msg);
+                vueObj.$dialog.alert({
+                    message: err.msg
+                });
         }
     }
-    // responseTripleDesEncode(data) {
-    //     return JSON.parse(CryptoJS.enc.Utf8.stringify(CryptoJS.TripleDES.decrypt(data.trim(), CryptoJS.enc.Utf8.parse('gl_lotterygl_lotteryabcd'), {
-    //         iv: CryptoJS.enc.Utf8.parse('20180117'),
-    //         mode: CryptoJS.mode.CBC,
-    //         padding: CryptoJS.pad.Pkcs7
-    //     })));
-    // }
 }

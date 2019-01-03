@@ -1,13 +1,12 @@
 const checkMap = {
-    // {storage缓存名: store mutations名}，尾部带*表示从localStorage获取，否则都是获取sessionStorage
-    "applicationVersion": "SET_APPLICATION_VERSION",
-    "applicationDevice": "SET_APPLICATION_DEVICE",
-    "applicationChannel": "SET_APPLICATION_CHANNEL",
-    "userAccount": "SET_USER_ACCOUNT*",
-    "userInfo": "SET_USER_INFO*",
-    "userId": "SET_USER_ID*",
-    "userAddress": "SET_USER_ADDRESS*",
-    "userAddressOrigin": "SET_USER_ADDRESS_ORIGIN*"
+    /* {storage缓存名: store mutations名}，尾部带*表示从localStorage获取，否则都是获取sessionStorage */
+    "nativeVersion": "NATIVE_VERSION_SET",
+    "nativeDevice": "NATIVE_DEVICE_SET",
+    "nativeChannel": "NATIVE_CHANNEL_SET",
+    "userAccount": "USER_ACCOUNT_SET*",
+    "userInfo": "USER_INFO_SET*",
+    "userAddress": "USER_ADDRESS_SET*",
+    "userAddressOrigin": "USER_ADDRESS_ORIGIN_SET*"
 };
 
 export default store => {

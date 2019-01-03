@@ -30,6 +30,6 @@ Object.keys(components).forEach(key => {
 });
 
 Vue.prototype.baseUI = {
-    $Header: Header,
-    $Loading: Loading
+    Header,
+    Loading
 };

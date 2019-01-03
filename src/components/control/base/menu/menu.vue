@@ -66,7 +66,7 @@
             topREM() {
                 if(this.top === "") {
                     return "auto";
-                } else if(this.top.trimAll() === this.top) {
+                } else if(this.top.toString().trimAll() === this.top) {
                     return this.top / 40 + "rem";
                 }
                 return this.top;
@@ -100,8 +100,8 @@
         },
         methods: {
             setIndex(index) {
-                if(this.index !== void 0) this.$emit("update:index", index);
-                else this.selectIndex = index;
+                if(this.index === void 0) this.selectIndex = index;
+                else this.$emit("update:index", index);
             },
             activeSelect(index) {
                 if(+this.selectType === 1 && index !== this.index) {

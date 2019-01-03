@@ -10,6 +10,7 @@ Loading.newInstance = (properties = {}, props = {}) => {
                 vnode = h(Loading, {
                     props: Object.assign({}, {
                         fix: true,
+                        background: "transparent",
                         fullScreen: true
                     }, props)
                 }, [this.render(h)]);
@@ -17,6 +18,7 @@ Loading.newInstance = (properties = {}, props = {}) => {
                 vnode = h(Loading, {
                     props: Object.assign({}, {
                         fix: true,
+                        background: "transparent",
                         fullScreen: true
                     }, props)
                 });
@@ -41,6 +43,7 @@ Loading.newInstance = (properties = {}, props = {}) => {
 
     return {
         show() {
+            document.body.style.overflow = "hidden";
             loading.visible = true;
         },
         remove(callback) {
@@ -49,6 +52,7 @@ Loading.newInstance = (properties = {}, props = {}) => {
                 loading.$parent.$destroy();
                 const $fullscreen = document.getElementsByClassName("gl-loading-fullscreen");
                 if($fullscreen.length) document.body.removeChild($fullscreen[0]);
+                document.body.style.overflow = "";
                 callback();
             }, 500);
         },

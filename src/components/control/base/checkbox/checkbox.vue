@@ -9,7 +9,12 @@
     @date 2018-8-27
 -->
 <template>
-    <i class="base-checkbox" :class="value?'icon-checked-circular checked':'icon-check-circular'" @click="change"><slot></slot></i>
+    <i
+        class="base-checkbox"
+        :class="value?'icon-checked-circular checked':'icon-check-circular'"
+        @click="change">
+        <slot></slot>
+    </i>
 </template>
 
 <script>

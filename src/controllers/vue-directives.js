@@ -2,14 +2,14 @@ import Vue from "vue";
 
 export default () => {
     Vue.directive("image", (el, binding, vNode) => {
-        if(!el.classList.contains("directive-image")) {
+        if(el.classList.contains("directive-image")) {
+            el.querySelector(".directive-image-item").style.backgroundImage = `url(${binding.value})`;
+        } else {
             el.classList.add("directive-image");
             const $image = document.createElement("div");
             $image.classList.add("directive-image-item");
             $image.style.backgroundImage = `url(${binding.value})`;
             el.appendChild($image);
-        } else {
-            el.querySelector(".directive-image-item").style.backgroundImage = `url(${binding.value})`;
         }
     });
 

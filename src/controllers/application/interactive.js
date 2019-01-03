@@ -90,12 +90,12 @@ export default {
     /* 原生页面跳转 */
     toAppProView(type = 0) {
         const typeName = [
-            // 交易记录
+            /* 交易记录 */
             {
                 android: "capital.CashBillAct",
                 ios: "TradingBillViewController"
             },
-            // 到未结分润界面
+            /* 到未结分润界面 */
             {
                 android: "capital.TradeListAct",
                 ios: "TradingDetailsViewController"

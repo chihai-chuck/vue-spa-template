@@ -78,7 +78,7 @@
             if(position.x !== 0 || position.y !== 0) {
                 this.$el.scrollLeft = position.x;
                 this.$el.scrollTop = position.y;
-                this.$store.commit("SET_CONTROLS_SCROLL_POSITION", {});
+                this.$store.commit("CONTROLS_SCROLL_POSITION_SET", {});
             }
 
             this.offsetPullRefreshHeight = parseFloat(this.$el.querySelector(".pull-refresh").getStyle("height"));
@@ -94,7 +94,7 @@
                 if(!this.enableRefresh || this.$el.scrollTop > 0 || !this.touching) return;
                 const diff = e.targetTouches[0].pageY - this.startY - this.startScroll;
                 if(diff > 0) e.preventDefault();
-                this.top = Math.pow(diff, 0.8) + (this.state === 2 ? this.offsetPullRefreshHeight : 0);
+                this.top = (Math.pow(diff, 0.8)||0) + (this.state === 2 ? this.offsetPullRefreshHeight : 0);
                 if(this.state === 2) return; // in refreshing
                 if(this.top >= this.offsetPullRefreshHeight) this.state = 1;
                 else this.state = 0;
@@ -146,11 +146,14 @@
             },
             setScrollTop() {
                 if(this.$store.state.config.includedPage.includes(this.$parent.$options.name) || this.$store.state.controls.scroll.positionInclude.includes(this.$parent.$options.name)) {
-                    this.$store.commit("SET_CONTROLS_SCROLL_POSITION", {
+                    this.$store.commit("CONTROLS_SCROLL_POSITION_SET", {
                         x: this.$el.scrollLeft,
                         y: this.$el.scrollTop
                     });
                 }
+            },
+            toScrollTop() {
+                this.$el.scrollTop = 0;
             }
         }
     }

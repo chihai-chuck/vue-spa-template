@@ -34,7 +34,7 @@
                 active (Function)图标被点击时触发的事件，可空，会传递标准event当前事件对象
                 render (Function)图标内容render函数，支持自定义图标内容（不包含图标自身）
         iconCover (Boolean)是否在icon图标后加圆形半透明黑色遮罩，默认false
-        root (Boolean)内部属性，不允许传值，用于识别是否在root对象中，以供实现$Header.back()、$Header.close()功能
+        root (Boolean)内部属性，不允许传值，用于识别是否在root对象中，以供实现Header.back()、Header.close()功能
         mode (String)定制模式，使用定制模式时，不建议使用其他参数，很多参数将变得不可用或出现错误，目前可选值default(默认模式)、search(搜索框模式)，默认default
             -search （搜索框模式）options参数
                 placeholder (String)搜索文本输入框默认提示文字
@@ -50,8 +50,8 @@
                 event (Object)滚动事件对象
                 scrollTop (Number)当前滚动X轴top位置
     @global methods
-        $vm.baseUI.$Header.back() 返回上一页
-        $vm.baseUI.$Header.close() 返回首页
+        $vm.baseUI.Header.back() 返回上一页
+        $vm.baseUI.Header.close() 返回首页
     @author Chuck.迟海
     @date 2017-12-25
     @update
@@ -59,7 +59,7 @@
         * 2018-1-5 增加自动适应IOS状态栏间距
         * 2018-1-8 增加对IOS老版本（1.1.4）以下版本顶部20px状态栏的兼容。 by-luops
                    user界面头像被挡住，无法点击，增加透明度大于0.2以上才显示导航。 by-luops
-        * 2018-1-11 增加全局调用方法，$vm.baseUI.$Header.back()、$vm.baseUI.$Header.close()  by迟海
+        * 2018-1-11 增加全局调用方法，$vm.baseUI.Header.back()、$vm.baseUI.Header.close()  by迟海
         * 2018-1-30 新增定制模式，添加search(搜索框)模式  by迟海
         * 2018-3-15 新增scrollFadeBg参数，实现背景色的渐现效果。  by迟海
                     新增scroll事件，在开启scrollFade后，页面滚动会触发该事件。  by迟海
@@ -74,14 +74,16 @@
     <div class="base-header" :class="{'pointer-none':config.opacity<.2&&!fadeMode.background}" v-if="!root">
         <p class="status-bar" :style="styleMerge({position,height:statusBar},scrollFadeOpacity)"></p>
         <p class="status-bar-distance" :style="{height:statusBar}" v-if="position==='fixed'||position==='absolute'"></p>
-        <div class="header" :style="styleMerge({position,top:position==='fixed'||position==='absolute'?statusBar:'auto',color:fontColor},scrollFadeOpacity)">
+        <div class="header"
+             :class="{line}"
+             :style="styleMerge({position,top:position==='fixed'||position==='absolute'?statusBar:'auto',color:fontColor},scrollFadeOpacity)">
             <template v-if="iconLeft.length">
                 <i class="icon align-center"
                    v-for="(ic,index) in iconLeft"
-                   :key="index"
+                   :key="'icon'+index"
                    :class="[ic.icon||'',{caption:!ic.icon},{'just-icon':!ic.caption},{'icon-cover':config.icon.cover}]"
                    :style="styleMerge({left:index*2.5+'rem'},ic.style)"
-                   @click="ic.active">
+                   @click="iconActive(ic.active)">
                     {{ic.caption}}
                     <header-icon-expand :render="ic.render" v-if="ic.render"></header-icon-expand>
                 </i>
@@ -93,14 +95,15 @@
                 <div class="partial" :style="{paddingLeft:showBack?'2.25rem':'0'}" v-else>
                     <div class="search-box" v-if="mode==='search'">
                         <div class="search-content">
-                            <i class="align-center icon-sousuo"></i>
-                            <input type="search"
+                            <i class="align-center icon-search"></i>
+                            <input ref="search"
+                                    type="search"
                                    :placeholder="options.placeholder"
                                    :maxlength="options.maxlength"
                                    :value="value"
                                    @input="$emit('input',$event.target.value.trim())"
                                    @keypress.13="options.active">
-                            <button @click="options.active">搜索</button>
+                            <button @click="options.cancel">{{options.btnName}}</button>
                         </div>
                     </div>
                 </div>
@@ -108,10 +111,10 @@
             <template v-if="iconSub.length">
                 <i class="icon align-center"
                    v-for="(ics,index) in iconSub"
-                   :key="index"
+                   :key="'iconSub'+index"
                    :class="[ics.icon||'',{caption:!ics.icon},{'just-icon':!ics.caption},{'icon-cover':config.icon.cover}]"
                    :style="styleMerge({right:index*2.5+'rem'},ics.style)"
-                   @click="ics.active">
+                   @click="iconActive(ics.active)">
                     {{ics.caption}}
                     <header-icon-expand :render="ics.render" v-if="ics.render"></header-icon-expand>
                 </i>
@@ -195,6 +198,10 @@
             value: {
                 type: String,
                 default: ""
+            },
+            line: {
+                type: Boolean,
+                default: false
             }
         },
         data() {
@@ -251,13 +258,14 @@
                 return `${this.$store.state.controls.header.statusBarHeight}px`;
             },
             scrollFadeOpacity() {
-                return this.fadeMode.background ? {
-                    background: `rgba(${this.config.background},${this.config.opacity}) !important`
-                } : Object.assign({}, {
-                    opacity: this.config.opacity
-                }, this.config.background ? {
-                    background: `${this.config.background} !important`
-                } : {});
+                return this.fadeMode.background ?
+                    {background: `rgba(${this.config.background},${this.config.opacity}) !important`} :
+                    Object.assign({}, {
+                        opacity: this.config.opacity
+                    }, this.config.background ?
+                        {background: `${this.config.background} !important`} :
+                        {}
+                    );
             },
             fontColor() {
                 return this.fadeMode.color ? `rgba(${this.fadeMode.color},${this.config.opacity}) !important` : `rgb(${this.config.color}) !important`;
@@ -270,17 +278,15 @@
             },
             fadeMode() {
                 if(typeof this.fade === "string") {
-                    return this.config.fadeModeList.includes(this.fade) ? {
-                        [this.fade]: {}
-                    } : {};
+                    return this.config.fadeModeList.includes(this.fade) ?
+                        {[this.fade]: {}} :
+                        {};
                 } else if(this.fade instanceof Array) {
                     let temp = {};
                     for(let item of this.fade) {
                         if(typeof item === "string") {
                             if(this.config.fadeModeList.includes(item)) temp[item] = {};
-                        } else {
-                            if(this.config.fadeModeList.includes(item[0])) temp[item[0]] = item[1];
-                        }
+                        } else if(this.config.fadeModeList.includes(item[0])) temp[item[0]] = item[1];
                     }
                     return temp;
                 }
@@ -340,49 +346,34 @@
 
                 if(Object.keys(this.fadeMode).length) {
                     this.scrollEvent();
-                    this.scrollDOM.addEventListener("scroll", this.scrollEvent, false);
+                    this.scrollDOM.addEventListener("scroll", this.scrollEvent);
                 } else {
                     this.config.opacity = 1;
-                    this.scrollDOM.removeEventListener("scroll", this.scrollEvent, false);
+                    this.scrollDOM.removeEventListener("scroll", this.scrollEvent);
                 }
             },
             styleMerge(obj, arr) {
                 return [obj, ...[arr || []]];
             },
             back() {
-                //返回按钮是否需要触发appToBack
-                let shouldAppToBack = this.$store.state.controls.header.appToBackListFull.includes(this.$route.path);
-                if(this.$store.getters.appRuntime) {
-                    if(!shouldAppToBack) {
-                        const appToBackList = this.$store.state.controls.header.appToBackList;
-                        const indexOfMultiple = (str, matchArr) => {
-                            for(let i of matchArr) {
-                                if(str.indexOf(i) === 0) return i;
-                            }
-                            return false;
-                        };
-                        if(indexOfMultiple(this.$route.path, appToBackList)) {
-                            shouldAppToBack = true;
-                        }
-                    }
-                }
-                if(this.$store.getters.appRuntime && shouldAppToBack) {
-                    GLOBAL.application.returnHome();
-                } else {
-                    if(this.showClose) {
-                        this.$router.back();
-                    } else {
-                        if(this.address) this.$router.replace(this.address);
-                        else this.$router.back();
-                    }
-                }
+                const currentPath = this.$route.fullPath;
+
+                setTimeout(() => {
+                    if(this.$route.fullPath === currentPath) GLOBAL.application.returnHome();
+                }, 100);
+
+                if(this.showClose) {
+                    this.$router.back();
+                } else if(this.address) this.$router.replace(this.address);
+                    else this.$router.back();
             },
             close() {
                 if(this.$store.getters.appRuntime) {
                     GLOBAL.application.appOnlyReturnHome();
-                } else {
-                    if(this.address) this.$router.push(this.address);
-                }
+                } else if(this.address) this.$router.push(this.address);
+            },
+            iconActive(func) {
+                if(typeof func === "function") func();
             }
         }
     }

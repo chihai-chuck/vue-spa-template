@@ -11,15 +11,15 @@ export default {
      * @author Chuck.迟海
      * @date 2018-3-16
      */
-    colorGradient(colorStart, colorEnd, progress){
+    colorGradient(colorStart, colorEnd, progress) {
         const colorArr = [];
         let step = progress;
         if(step < 0) step = 0;
         else if(step > 1) step = 1;
 
         colorStart.forEach((color, index) => {
-            const sColor = +color.toString().trimAll();
-            const eColor = +colorEnd[index].toString().trimAll();
+            const sColor = +color.toString().trimAll(),
+             eColor = +colorEnd[index].toString().trimAll();
             colorArr.push(Math.round(sColor + (eColor - sColor) * step));
         });
 

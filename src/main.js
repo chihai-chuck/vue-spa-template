@@ -9,8 +9,9 @@ import vuexCheck from "./store/check";
 import vueFilters from "#/vue-filters";
 import vueDirectives from "#/vue-directives";
 
-import "^config/mint-ui";
-import "^config/base-ui";
+import "^config/ui/base";
+import "^config/ui/vant";
+import "^config/axios";
 
 import "./global";
 
@@ -28,7 +29,7 @@ Vue.prototype.$global = GLOBAL; // 全局功能对象，以供在vue中通过thi
 vuexCheck(store);
 
 router.beforeEach((to, from, next) => {
-    Vue.prototype.baseUI.$Loading.hide();
+    Vue.prototype.baseUI.Loading.hide();
     GLOBAL.functions.log({
         title: "router-before",
         text: `<from>: ${from.path}     <to>: ${to.path}`,
@@ -37,29 +38,28 @@ router.beforeEach((to, from, next) => {
     const routerNext = url => {
         if(url === false) {
             next(false);
-        } else {
-            if(from.query.ADTAG && !to.query.ADTAG) {
+        } else if(from.query.ADTAG && !to.query.ADTAG) {
                 next({
                     path: url || to.path,
                     query: {
                         ADTAG: from.query.ADTAG
                     }
                 });
-            } else {
-                if(url) next(url);
-                else next();
-            }
+        } else if(url) {
+            next(url);
+        } else {
+            next();
         }
-    };
-    const saveToken = (token = to.query.accessToken) => {
+    },
+    saveToken = (token = to.query.accessToken) => {
         if(token && store.state.user.account.token !== token) {
             store.commit("SET_USER_ACCOUNT", {
                 token
             });
             GLOBAL.functions.cache.write("tokenLogin", true);
         }
-    };
-    const appRedirect = () => {
+    },
+    appRedirect = () => {
         if(to.query.platform || store.getters.appRuntime) {
             if(to.query.platform) {
                 store.commit("SET_APPLICATION_VERSION", to.query.ver);
@@ -77,17 +77,15 @@ router.beforeEach((to, from, next) => {
     };
 
     if(to.meta.isLogin) {
-        if(!store.state.user.account.token) {
+        if(store.state.user.account.token) {
+            appRedirect();
+        } else {
             if(to.query.platform || store.getters.appRuntime) {
                 GLOBAL.application.toLoginOut();
             } else {
-                // 增加登录测试用在test页面
-                // routerNext("/home/user");
                 routerNext("/test");
             }
-            Vue.prototype.mintUI.Toast("请先登录");
-        } else {
-            appRedirect();
+            Vue.prototype.$toast("请先登录");
         }
     } else {
         appRedirect();

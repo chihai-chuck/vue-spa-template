@@ -1,10 +1,4 @@
 export default {
-    dataType: {
-        object: {
-            /* 对象浅拷贝 */
-            shallowCopy: obj => JSON.parse(JSON.stringify(obj))
-        }
-    },
     /**
      * @program 临时数据缓存
      * @author Chuck.迟海
@@ -59,7 +53,7 @@ export default {
             let readRet = "";
             try {
                 readRet = JSON.parse(readTemp);
-            } catch(err) {
+            } catch (err) {
                 readRet = readTemp;
             }
             if(!isDataCheck) {
@@ -121,12 +115,11 @@ export default {
     },
     browser: { // 判断浏览器信息
         versions: (function browserVersions() {
-            const userAgent = navigator.userAgent;
-            const iosVersion = userAgent.match(/CPU iPhone OS (\d+)[_](\d+) like/);
+            const userAgent = navigator.userAgent,
+             iosVersion = userAgent.match(/CPU iPhone OS (\d+)[_](\d+) like/);
             return {
                 qq: userAgent.match(/\sQQ/i) === " qq", // 是否QQ
                 uc: userAgent.indexOf("UCBrowser") > -1, // UC浏览器
-                // ios: !!userAgent.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), // ios终端
                 ios: iosVersion && iosVersion[1], // ios终端
                 iPad: userAgent.indexOf("iPad") > -1, // 是否iPad
                 gecko: userAgent.indexOf("Gecko") > -1 && userAgent.indexOf("KHTML") < 0, // 火狐内核
@@ -166,7 +159,6 @@ export default {
             "s+": Math.floor(timestampNum / 1000 % 60), // 秒
             "S": Math.floor(timestampNum % 1000) // 毫秒
         };
-
         let formatRes = rule["d+"] > 0 ? formatStr : formatAdditional || formatStr;
         for(let analytical in rule) {
             if(new RegExp("(" + analytical + ")").test(formatRes)) {
@@ -174,28 +166,6 @@ export default {
             }
         }
         return formatRes;
-    },
-    /**
-     * @program 星期数字格式化
-     * @method GLOBAL.functions.weekNumFormat(number)
-     * @return (String) 格式化后的星期数
-     * @parameter
-     *     number     (Number|String)星期数字
-     * @example GLOBAL.functions.weekNumFormat(3)
-     * @author Chuck.迟海
-     * @date 2018-4-20
-     */
-    weekNumFormat(num) {
-        const int = +num;
-        return [
-            '星期天',
-            '星期一',
-            '星期二',
-            '星期三',
-            '星期四',
-            '星期五',
-            '星期六'
-        ][int];
     },
     /**
      * @program 控制台输出调试信息
@@ -225,24 +195,25 @@ export default {
             title: "debug",
             text: "",
             color: "#26a2ff"
-        }, isOption ? options : isText ? {
-            text: options
-        } : {
-            text: "-"
-        });
-
-        const logData = Array.prototype.slice.apply(arguments).splice(isOption||isText ? 1 : 0, arguments.length).map(item => {
-            if(Object.prototype.toString.call(item) === "[object Object]") {
-                try {
-                    return JSON.parse(JSON.stringify(item));
-                } catch(err) {
-                    return item;
+        }, isOption ?
+            options :
+            isText ?
+                {text: options} :
+                {text: "-"}
+        );
+        const logData = Array.prototype.slice.apply(arguments).splice(isOption||isText ? 1 : 0, arguments.length)
+            .map(item => {
+                if(Object.prototype.toString.call(item) === "[object Object]") {
+                    try {
+                        return JSON.parse(JSON.stringify(item));
+                    } catch (err) {
+                        return item;
+                    }
                 }
-            }
-            return item;
-        });
+                return item;
+            });
 
-        if(GLOBAL.development || GLOBAL.debug) {
+        if(GLOBAL.development) {
             console.log(
                 `%c ${_options.title} %c ${_options.text} \n`,
                 `color:#fff;padding:1px;border-radius:3px 0 0 3px;background-color:${_options.color};`,
@@ -264,14 +235,11 @@ export default {
     appVersionCheck(key) {
         if(vueObj.$store.getters.appRuntime) {
             if(vueObj.$store.getters.appDevice.ios) {
-                return vueObj.$store.state.application.version >= GLOBAL.appVerControl[key].ios;
+                return vueObj.$store.state.native.version >= GLOBAL.appVerControl[key].ios;
             } else if(vueObj.$store.getters.appDevice.android) {
-                return vueObj.$store.state.application.version >= GLOBAL.appVerControl[key].android;
+                return vueObj.$store.state.native.version >= GLOBAL.appVerControl[key].android;
             }
         }
         return false;
-    },
-    isTabBar(path) { //判断路由为tabbar跳转
-        return sessionStorage.applicationThirdName ? false : GLOBAL.base.homePath.some(i => i === path);
     }
 }

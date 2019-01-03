@@ -35,19 +35,19 @@ export default {
     /* 中国身份证验证 规则：验证是否正确的15或18位中国公民身份证 */
     idNumberChina(str) {
         let valid = /^(^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$)|(^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])((\d{4})|\d{3}[Xx])$)$/.test(str);
-        if (valid) {
-            if (str.length === 18) {
+        if(valid) {
+            if(str.length === 18) {
                 const idCardWeight = new Array(7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2), // 前17位加权因子
                     idCardCheckDigit = new Array(1, 0, 10, 9, 8, 7, 6, 5, 4, 3, 2); // 除以11后，可能产生的11位余数、校验码
                 let idCardWeightSum = 0; // 用来保存前17位各自乘以加权因子后的总和
 
-                for (let i = 0; i < 17; i++) idCardWeightSum += str.substring(i, i + 1) * idCardWeight[i];
+                for(let i = 0; i < 17; i++) idCardWeightSum += str.substring(i, i + 1) * idCardWeight[i];
 
                 let isX = isNaN(str.slice(-1)); //末位是否是X
                 const idCardMod = idCardWeightSum % 11; //计算出校验码所在数组的位置
                 const idCardLast = isX ? 'X' : parseInt(str.slice(-1)); // 获取最后一位身份证号码
 
-                if (idCardMod === 2) valid = idCardLast.toUpperCase() === "X"; // 如果等于2，则说明校验码是10，身份证号码最后一位应该是X
+                if(idCardMod === 2) valid = idCardLast.toUpperCase() === "X"; // 如果等于2，则说明校验码是10，身份证号码最后一位应该是X
                 else valid = idCardCheckDigit[idCardMod] === idCardLast; // 用计算出的校验码与最后一位身份证号码匹配，如果一致，说明通过，否则是无效的身份证号码
             }
         }

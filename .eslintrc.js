@@ -1,7 +1,10 @@
 module.exports = {
     root: true,
     parserOptions: {
-        parser: "babel-eslint"
+        parser: "babel-eslint",
+        ecmaFeatures: {
+            jsx: true
+        }
     },
     env: {
         browser: true,
@@ -12,17 +15,18 @@ module.exports = {
         "html",
         "vue"
     ],
-    // extends: ["plugin:vue/essential", "@vue/prettier"],
     extends: ["plugin:vue/essential"],
     globals: {
         "GLOBAL": false,
         "vueObj": false,
         "process": false,
         "log": false,
-        "WebViewJavascriptBridge": false
+        "WebViewJavascriptBridge": false,
+        "WeixinJSBridge": false,
+        "AlipayJSBridge": false
     },
     /* ESLint 规则  */
-    // error-开启规则,错误级别、warn-开启规则,警告级别、off-关闭规则
+    /* error-开启规则,错误级别、warn-开启规则,警告级别、off-关闭规则 */
     rules: {
         "no-cond-assign": "error", // 禁止在条件语句中出现赋值操作符
         "no-console": process.env.NODE_ENV === "production" ? "warn" : "off", // 生产环境中不建议出现console
@@ -70,7 +74,7 @@ module.exports = {
         "no-empty-pattern": "error", // 禁止在代码中出现空解构模式，因为空解构赋值是不会起作用的
         "no-eq-null": "off", // 大多数时候我们都将null、undefined视为是空，所以在多数时候null与undefined是等价的，所以不需要过于严格的判断null与undefined的类型
         "no-eval": "warn", // 不建议在代码中使用eval()函数
-        "no-extend-native": ["warn", {exceptions: ["String", "Date", "Array"]}], // 不建议扩展原生的对象，因为可能会导致原生的功能发生改变，这将影响到所有的对象甚至是其它的内建对象
+        "no-extend-native": ["warn", {exceptions: ["String", "Date", "Array", "Number"]}], // 不建议扩展原生的对象，因为可能会导致原生的功能发生改变，这将影响到所有的对象甚至是其它的内建对象
         "no-extra-bind": "warn", // 无需用bind()做一些不必要的函数绑定，请确保函数中会用到this再使用bind()方法来改变function的this值
         "no-extra-label": "error", // 禁用不必要的标签，如果一个循环中不包含嵌套循环或switch语句，对这样的循环使用标签是不必要的。你可以通过移除标签，只使用break或continue实现同样的结果。这些标签可能会使读者感到困惑，因为他们可能希望使用标签跳转到更远的地方
         "no-fallthrough": "error", // 禁止case语句落空，switch语句是一种比较容易出错的结构，这主要是因为case的落空，如果case语句中没有使用break进行组织，在子句代码执行完后依然会继续执行下一个case，而通常这是因为编写代码时的疏忽造成的，所以如果是有意为之请使用// falls through注明，否则没有break的case语句都将被认为是错误的
@@ -137,12 +141,12 @@ module.exports = {
         "block-spacing": "error", // 在当行代码块中需要使用空格，正确格式示例：if(foo) { bar = 0; } 错误格式：if(foo) {bar=0;}
         "brace-style": "error", // 大括号要求使用one true brace style风格，即大括号不单独占用一行，正确示例：
         /*
-        if(foo) {
-            bar();
-        } else {
-            baz();
-        }
-        */
+         * if(foo) {
+         * bar();
+         * } else {
+         * baz();
+         * }
+         */
         "camelcase": ["error", {properties: "never"}], // 代码强制使用驼峰命名法，不检查属性名称
         "comma-dangle": "error", // 禁止使用拖尾逗号
         "comma-spacing": ["error", {after: true}], // 在逗号前不需要空格，但是逗号后必须有一个空格，正确格式示例：var arr = [1, 2];
@@ -155,12 +159,91 @@ module.exports = {
         "id-blacklist": "off", // 没有太严格的要求，但是在命名的时候，尽量避免使用难以理解的名称或标识符，所有的命名要尽量简单但是明确
         "id-length": ["error", {
             min: 3,
-            exceptions: ["$", "e", "h", "i", "j", "x", "y", "to", "on", "id", "ak", "el", "ws", "qq", "uc","iv", "qs", "op"]
+            exceptions: ["$", "e", "h", "i", "j", "m", "r", "w", "x", "y", "z", "to", "on", "id", "ak", "el", "ws", "qq", "uc", "iv", "qs", "op", "if"]
         }], // 没有太严格的要求，但是在命名的时候，尽量避免使用难以理解的名称或标识符，所有的命名要尽量简单但是明确，最少需要3个字符，在循环变量可以使用缩写的i来表示index，h在Vue中是createElement的别名，Vue官方文档说明：将 h 作为 createElement 的别名是 Vue 生态系统中的一个通用惯例，实际上也是 JSX 所要求的，如果在作用域中 h 失去作用， 在应用中会触发报错。
         "id-match": "off", // 所有的命名都遵守驼峰命名法，不做太严格限制
-        //"indent": ["error", 4, {SwitchCase: 1}], // 所有的代码缩进必须使用4个空格，不允许使用tab或两个空格，这么做是为了保持代码统一性，并且空格能确保在所有的编辑器、字体中表现都是一致的
+        /* "indent": ["error", 4, {SwitchCase: 1}], // 所有的代码缩进必须使用4个空格，不允许使用tab或两个空格，这么做是为了保持代码统一性，并且空格能确保在所有的编辑器、字体中表现都是一致的 */
         "jsx-quotes": "error", // 如果项目中有需要用到JSX，则强制所有不包含双引号的JSX属性值使用双引号
-        "key-spacing": ["error"] // 在对象字面量键和值的冒号后加一个空格，正确格式示例：{foo: 2}
+        "key-spacing": ["error"], // 在对象字面量键和值的冒号后加一个空格，正确格式示例：{foo: 2}
+        "keyword-spacing": ["error", {overrides: {if: {after: false}, for: {after: false}, while: {after: false}}}], // 在关键字前后需要加空格，但是关键字后带括号的时候不需要，正确实例：if(foo) {...} else if(bar) {...}
+        "line-comment-position": ["error", {position: "beside"}], // 双斜杠//注释只可在代码行后面，若要在代码上方单独一行，用/**/注释
+        "linebreak-style": "error", // 代码必须使用unix的换行符(\n)，若IDE默认换行符不是\n，可在IDE设置中进行修改
+        "lines-around-comment": "off", // 注释前后不需要一定要有空行
+        "lines-between-class-members": "off", // 类成员之间不强制空行
+        "max-depth": ["warn", {max: 5}], // 代码块嵌套深度不建议超过5级，因为这会让代码可读性变差，而且容易造成逻辑混乱，请简化代码
+        "max-len": "off", // 单行代码过长时影响代码可读性，一行代码字符不建议超过100个，因eslint检测问题该规则暂不开启
+        "max-lines": ["warn", {max: 1000}], // 单文件代码量如果过长，臃肿的代码会使阅读和修改变得复杂，可维护性极差，建议将可复用的代码封装和组件化、模块化，单文件代码行数不建议超过1000行
+        "max-nested-callbacks": "warn", // 太多的回调函数使代码逻辑混乱，维护难度增加，不建议代码回调函数深度超过10次，也可改用promise更好的处理更多深度的回调
+        "max-params": ["warn", {max: 5}], // 函数定义的参数不建议超过5个，因为很容易造成后续维护和扩展的困难，以及导致传参的不便利，若参数过多时，可改用传递一个对象的方式，这样可以动态的增减参数而不影响到调用代码
+        "max-statements": ["warn", {max: 20}], // 一个函数中代码语句数量不建议超过20条，不同的功能可以拆分成多个函数，这样不仅代码更易阅读，而且在调用时更灵活
+        "max-statements-per-line": "error", // 不要把代码都写在一行中，除非代码块中只有一行代码，例如if(foo) bar = 1;这样是被允许，但是不可超过两行的代码块写在一行中，这样极其影响代码可读性
+        "multiline-comment-style": "off", // 多行注释建议在每行注释前加*，例如：
+        /*
+         * 这是第一行注释
+         * 这是第二行注释
+         */
+        "multiline-ternary": ["error", "always-multiline"], // 使用三元运算符的时候，如果代码跨越多行，则需在运算符之间换行, 例如：
+        /*
+         * foo > bar ?
+         * {
+         *     key: value
+         * } :
+         * {
+         *     key: value,
+         *     key: value
+         * }
+         */
+        "new-cap": "error", // 所有构造函数首字母必须大写，并且需要使用new来调用，例如: let img = new Image();
+        "new-parens": "off", // 调用无参构造函数时可以省略括号，但是构造函数名首字母必须大写
+        "newline-per-chained-call": "off", // 当方法链在一行超过2个调用时，需要换行调用，这样可以使代码更利于阅读，例如jQuery调用：
+        /*
+         * $(".col").addClass("active")
+         *          .css("color", "blue")
+         *          .text("hello");
+         */
+        "no-array-constructor": "off",
+        "no-bitwise": "off",
+        "no-continue": "off",
+        "no-inline-comments": "off",
+        "no-lonely-if": "error", // 禁止if语句作为else语句块中唯一的语句出现，应当改写为else if
+        "no-mixed-operators": "off", // 含有连续多个操作符的表达式中，需要使用括号括起来，否则影响代码可读性，并且最好不要在一行代码中使用过多的操作符
+        "no-mixed-spaces-and-tabs": "error", // 缩进符统一使用4个空格，出现制表符和空格同时使用的缩进是错误的
+        "no-multi-assign": "off",
+        "no-multiple-empty-lines": "error", // 不要使用过多的空行，连续的空行数最多两行
+        "no-negated-condition": "error", // 禁止使用否定表达式，即在有if和else的语句中，不应出现if判断false的情况，而应将if判断true，而else处理false，否则逻辑理解将变得困难
+        "no-nested-ternary": "off",
+        "no-new-object": "warn", // 创建一个Object构造函数使，可以直接使用{}，而不需要new Object
+        "no-plusplus": "off",
+        "no-tabs": "error", // 代码中不可出现制表符(tab)
+        "no-ternary": "off",
+        "no-trailing-spaces": ["error", {ignoreComments: true}], // 禁止在代码行尾出现空白符，有注释的情况除外
+        "no-underscore-dangle": "off",
+        "no-unneeded-ternary": "error", // 在有更简单的写法时，不可使用三元运算符
+        /*
+         * 例如：let foo = bar ? bar : 1; 应当写为：let foo = bar || 1;
+         * 例如：let foo = bar === 1 ? true : false; 应当写为 let foo = bar === 1;
+         */
+        "no-whitespace-before-property": "error", // 语句中的对象或属性之前禁止出现空白，例如：foo. bar 这种情况是错误的
+        "nonblock-statement-body-position": "error", // 单个语句时不需要换行，例如：if(foo) bar(); if语句若只有一行代码，而不是块时，需要跟if写在同一行
+        "object-curly-newline": "error", // 花括号需使用统一的换行符标准，在对象属性内部花括号需要单独占用一行，这样有利于代码变更时的复制、剪切，正确示例：
+        /*
+         * [
+         *     {
+         *         key: value
+         *     },
+         *     {
+         *         key: value
+         *     }
+         * ]
+         */
+        "object-curly-spacing": "error", // 单行内花括号中不允许有空格，正确示例：{key: value}
+        "object-property-newline": ["error", {allowAllPropertiesOnSameLine: true}], // 对象的每条属性需要都占用一行，除非所有属性都在同一行中
+        "one-var": "off" // 有连续的变量声明，并且都是一行的情况下，应该使用同一个声明，但若初始化值不是一行时可以不用同一个声明，例如：
+        /*
+         * let a = 1,
+         *     b = 2;
+         */
+
 
     }
 };

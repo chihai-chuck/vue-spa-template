@@ -15,8 +15,6 @@
     box-sizing: border-box;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     -webkit-touch-callout: none;
-    highlight-color: transparent;
-    //touch-action: none;
 }
 input:-webkit-autofill { -webkit-box-shadow: 0 0 0 1000px #fff inset; }
 /* 让Chrome内核在自动填表的时候不显示黄底 */
@@ -84,7 +82,7 @@ article {
 /* 清除浮动 Start */
 .clear-float {
     zoom: 1;
-    &:after {
+    &::after {
         display: block;
         content: "";
         height: 0;
@@ -103,7 +101,7 @@ article {
 .text-center {
     text-align: center;
 }
-.align-v-center-inline:after {
+.align-v-center-inline::after {
     content: "";
     display: inline-block;
     width: 0;
@@ -155,7 +153,6 @@ article {
 .align-v-space-around {
     flex-direction: column;
 }
-
 .absolute-c,
 .absolute-m,
 .absolute-cm {

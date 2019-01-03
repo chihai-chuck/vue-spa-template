@@ -9,7 +9,6 @@
     .status-bar,
     .header {
         .wrapper-width-max();
-        .split-line();
         z-index: 4900;
         position: fixed;
         top: 0;
@@ -20,6 +19,9 @@
     }
     .header {
         color: @color-main-word;
+        &.line {
+            .split-line();
+        }
         > i {
             position: absolute;
             top: 0;
@@ -29,7 +31,7 @@
             &.icon {
                 line-height: 1;
                 font-size: @size-font-20;
-                &:before {
+                &::before {
                     display: inline-block;
                     width: 62px;
                     height: 62px;
@@ -38,8 +40,8 @@
                     border-radius: 100%;
                     transition: background-color .2s ease;
                 }
-                &-cover:before {
-                    background-color: rgba(0,0,0,.4);
+                &-cover::before {
+                    background-color: rgba(0, 0, 0, .4);
                 }
             }
             &.caption {
@@ -67,7 +69,6 @@
                         position: relative;
                         width: 100%;
                         height: 100%;
-                        background-color: #fff;
                         > i {
                             position: absolute;
                             top: 0;
@@ -87,7 +88,7 @@
                             overflow: hidden;
                             font-size: @size-font-26;
                             color: #333;
-                            background: #f3f3f3;
+                            background: @color-main;
                         }
                         > button {
                             float: right;
@@ -96,7 +97,7 @@
                             margin-left: 10px;
                             border-radius: 10px;
                             letter-spacing: 2px;
-                            background-color: @color-active-word;
+                            background-color: @base-back;
                             font-size: @size-font-26;
                             color: #fff;
                         }

@@ -9,7 +9,7 @@ export default () => {
         return valNum > ellipsisMax ? ellipsisMax.toString() + "+" : valNum;
     });
 
-    // 日期格式化，调用方法参考functions/object-prototype.js
+    /* 日期格式化，调用方法参考functions/object-prototype.js */
     Vue.filter("dateFormat", (val, formatStr) => {
         if(typeof val === "object") {
             return val.format(formatStr);
@@ -18,6 +18,8 @@ export default () => {
         }
         return val;
     });
-    
+
     Vue.filter("timestampToCountdown", (val, formatStr, formatAdditional) => GLOBAL.functions.timestampToCountdown(val, formatStr, formatAdditional));
+
+    Vue.filter("number", val => parseInt(val));
 }

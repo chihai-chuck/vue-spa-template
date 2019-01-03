@@ -12,6 +12,7 @@
         notSplitLine (Boolean)是否显示分割线
         background (String)列表自定义背景
         styles (Object)额外设置的css样式
+        important (Boolean)是否在标题前加星号标识
     @slot
         列表文本内容
         custom 自定义列表内容
@@ -20,12 +21,12 @@
 -->
 <template>
     <li @click="active"
-        class="align-v-center"
+        class="base-cell-item align-v-center"
         :class="{spacing,'not-line':notSplitLine,arrow:next||nextIcon}"
         :style="styleMerge({background},styles)">
-        <div class="wrapper">
-            <Icon class="icon" :name="icon" :color="iconColor" v-if="icon"></Icon>
-            <span class="title" :style="{color}" v-if="title">{{title}}</span>
+        <div class="wrapper" v-if="icon||title">
+            <Icon class="icon" :name="icon" :color="iconColor" v-if="icon" single></Icon>
+            <span class="title" :class="{important}" :style="{color}" v-if="title">{{title}}</span>
         </div>
         <slot name="custom"></slot>
         <p class="text" :style="{color:textColor}" v-if="$slots.default"><slot></slot></p>
@@ -80,6 +81,10 @@
                 default: () => {
                     return {}
                 }
+            },
+            important: {
+                type: Boolean,
+                default: false
             }
         },
         methods: {
