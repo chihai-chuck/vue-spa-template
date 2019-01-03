@@ -53,7 +53,7 @@ export default {
             let readRet = "";
             try {
                 readRet = JSON.parse(readTemp);
-            } catch (err) {
+            } catch(err) {
                 readRet = readTemp;
             }
             if(!isDataCheck) {
@@ -116,7 +116,7 @@ export default {
     browser: { // 判断浏览器信息
         versions: (function browserVersions() {
             const userAgent = navigator.userAgent,
-             iosVersion = userAgent.match(/CPU iPhone OS (\d+)[_](\d+) like/);
+                iosVersion = userAgent.match(/CPU iPhone OS (\d+)[_](\d+) like/);
             return {
                 qq: userAgent.match(/\sQQ/i) === " qq", // 是否QQ
                 uc: userAgent.indexOf("UCBrowser") > -1, // UC浏览器
@@ -192,26 +192,26 @@ export default {
         const isOption = Object.prototype.toString.call(options) === "[object Object]";
         const isText = typeof options === "string" || typeof options === "number";
         const _options = Object.assign({}, {
-            title: "debug",
-            text: "",
-            color: "#26a2ff"
-        }, isOption ?
+                title: "debug",
+                text: "",
+                color: "#26a2ff"
+            }, isOption ?
             options :
             isText ?
                 {text: options} :
                 {text: "-"}
         );
-        const logData = Array.prototype.slice.apply(arguments).splice(isOption||isText ? 1 : 0, arguments.length)
-            .map(item => {
-                if(Object.prototype.toString.call(item) === "[object Object]") {
-                    try {
-                        return JSON.parse(JSON.stringify(item));
-                    } catch (err) {
-                        return item;
-                    }
+        const logData = Array.prototype.slice.apply(arguments).splice(isOption || isText ? 1 : 0, arguments.length)
+        .map(item => {
+            if(Object.prototype.toString.call(item) === "[object Object]") {
+                try {
+                    return JSON.parse(JSON.stringify(item));
+                } catch(err) {
+                    return item;
                 }
-                return item;
-            });
+            }
+            return item;
+        });
 
         if(GLOBAL.development) {
             console.log(

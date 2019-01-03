@@ -6,9 +6,9 @@ export default {
         if(window.WebViewJavascriptBridge) return callback(WebViewJavascriptBridge);
         if(window.WVJBCallbacks) return window.WVJBCallbacks.push(callback);
         window.WVJBCallbacks = [callback];
-        const WVJBIframe = document.createElement('iframe');
-        WVJBIframe.style.display = 'none';
-        WVJBIframe.src = 'wvjbscheme://__BRIDGE_LOADED__';
+        const WVJBIframe = document.createElement("iframe");
+        WVJBIframe.style.display = "none";
+        WVJBIframe.src = "wvjbscheme://__BRIDGE_LOADED__";
         document.documentElement.appendChild(WVJBIframe);
         setTimeout(() => {
             document.documentElement.removeChild(WVJBIframe);
@@ -23,7 +23,7 @@ export default {
             if(vueObj.$store.getters.appDevice.android) {
                 window.appjs.returnHome([]);
             } else if(vueObj.$store.getters.appDevice.ios) {
-                GLOBAL.application.nativeAction('returnHome');
+                GLOBAL.application.nativeAction("returnHome");
             }
         }
     },
@@ -33,7 +33,7 @@ export default {
             if(vueObj.$store.getters.appDevice.android) {
                 window.appjs.appToBack([]);
             } else if(vueObj.$store.getters.appDevice.ios) {
-                GLOBAL.application.nativeAction('appToBack');
+                GLOBAL.application.nativeAction("appToBack");
             }
         }
     },
@@ -43,7 +43,7 @@ export default {
             if(vueObj.$store.getters.appDevice.android) {
                 if(window.appjs && window.appjs.isShowHeadLayout) window.appjs.isShowHeadLayout([status]);
             } else if(vueObj.$store.getters.appDevice.ios) {
-                if(window.isShowHeadLayout) GLOBAL.application.nativeAction('isShowHeadLayout', [status]);
+                if(window.isShowHeadLayout) GLOBAL.application.nativeAction("isShowHeadLayout", [status]);
             }
         }
     },
@@ -53,7 +53,7 @@ export default {
             if(vueObj.$store.getters.appDevice.android) {
                 window.appjs.scan([type]);
             } else if(vueObj.$store.getters.appDevice.ios) {
-                GLOBAL.application.nativeAction('scan', [type]);
+                GLOBAL.application.nativeAction("scan", [type]);
             }
         }
     },
@@ -63,7 +63,7 @@ export default {
             if(vueObj.$store.getters.appDevice.android) {
                 window.appjs.cashOutCode([]);
             } else if(vueObj.$store.getters.appDevice.ios) {
-                GLOBAL.application.nativeAction('cashOutCode');
+                GLOBAL.application.nativeAction("cashOutCode");
             }
         }
     },
@@ -73,7 +73,7 @@ export default {
             if(vueObj.$store.getters.appDevice.android) {
                 window.appjs.toLoginOut([]);
             } else if(vueObj.$store.getters.appDevice.ios) {
-                GLOBAL.application.nativeAction('toLoginOut');
+                GLOBAL.application.nativeAction("toLoginOut");
             }
         }
     },
@@ -83,7 +83,7 @@ export default {
             if(vueObj.$store.getters.appDevice.android) {
                 window.appjs.withdraw([]);
             } else if(vueObj.$store.getters.appDevice.ios) {
-                GLOBAL.application.nativeAction('withdraw');
+                GLOBAL.application.nativeAction("withdraw");
             }
         }
     },
@@ -105,7 +105,7 @@ export default {
             if(vueObj.$store.getters.appDevice.android) {
                 window.appjs.toAppProView([typeName.android]);
             } else if(vueObj.$store.getters.appDevice.ios) {
-                GLOBAL.application.nativeAction('toAppProView', [typeName.ios]);
+                GLOBAL.application.nativeAction("toAppProView", [typeName.ios]);
             }
         }
     },
@@ -115,7 +115,7 @@ export default {
             if(vueObj.$store.getters.appDevice.android) {
                 window.appjs.refreshPreView([name]);
             } else if(vueObj.$store.getters.appDevice.ios) {
-                GLOBAL.application.nativeAction('refreshPreView', [name]);
+                GLOBAL.application.nativeAction("refreshPreView", [name]);
             }
         }
     },
@@ -125,7 +125,7 @@ export default {
             if(vueObj.$store.getters.appDevice.android) {
                 window.appjs.toAppCamera([name]);
             } else if(vueObj.$store.getters.appDevice.ios) {
-                GLOBAL.application.nativeAction('toAppCamera', [name]);
+                GLOBAL.application.nativeAction("toAppCamera", [name]);
             }
         }
     },
@@ -135,7 +135,7 @@ export default {
             if(vueObj.$store.getters.appDevice.android) {
                 window.appjs.saveReceiptCodeImg([imgUrl, status]);
             } else if(vueObj.$store.getters.appDevice.ios) {
-                GLOBAL.application.nativeAction('saveReceiptCodeImg', [imgUrl, status]);
+                GLOBAL.application.nativeAction("saveReceiptCodeImg", [imgUrl, status]);
             }
         }
     },
@@ -145,7 +145,7 @@ export default {
             if(vueObj.$store.getters.appDevice.android) {
                 window.appjs.getAppContacts([]);
             } else if(vueObj.$store.getters.appDevice.ios) {
-                GLOBAL.application.nativeAction('getAppContacts');
+                GLOBAL.application.nativeAction("getAppContacts");
             }
         }
     },
@@ -163,7 +163,7 @@ export default {
             if(vueObj.$store.getters.appDevice.android) {
                 window.appjs.toAppRedirect([url, isShowNav ? isShowNav : 0]);
             } else if(vueObj.$store.getters.appDevice.ios) {
-                GLOBAL.application.nativeAction('toAppRedirect', [url, isShowNav ? isShowNav : 0]);
+                GLOBAL.application.nativeAction("toAppRedirect", [url, isShowNav ? isShowNav : 0]);
             }
         }
     }

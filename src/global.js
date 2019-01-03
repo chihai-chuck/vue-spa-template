@@ -21,14 +21,14 @@ window.GLOBAL = {
         objectPrototype();
 
         const docEl = document.documentElement,
-            resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+            resizeEvt = "orientationchange" in window ? "orientationchange" : "resize",
             recalc = () => {
                 const clientWidth = docEl.clientWidth;
                 if(!clientWidth) return;
                 if(innerWidth > 640) {
-                    docEl.style.fontSize = '32px';
+                    docEl.style.fontSize = "32px";
                 } else {
-                    docEl.style.fontSize = clientWidth / 18 + 'px';
+                    docEl.style.fontSize = clientWidth / 18 + "px";
                 }
 
                 import("^plugins/fastclick").then(FastClick => {
@@ -37,7 +37,7 @@ window.GLOBAL = {
             };
         if(!document.addEventListener) return;
         window.addEventListener(resizeEvt, recalc);
-        document.addEventListener('DOMContentLoaded', recalc);
+        document.addEventListener("DOMContentLoaded", recalc);
 
         /*if(functions.getQueryString("platform") || functions.cache.read("applicationDevice")) {
             const appVersion = +((functions.getQueryString("ver") || "").replace(/\./g, "") || functions.cache.read("applicationVersion"));

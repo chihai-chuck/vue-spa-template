@@ -4,9 +4,9 @@ const install = (Vue, options) => {
     if(install.installed) return;
 
     const Preview = Vue.extend(PreviewComponent),
-     $preview = new Preview({
-        el: document.createElement("div")
-    });
+        $preview = new Preview({
+            el: document.createElement("div")
+        });
     document.body.appendChild($preview.$el);
     $preview.init(options);
 

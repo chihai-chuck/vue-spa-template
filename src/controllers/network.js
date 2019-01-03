@@ -8,13 +8,13 @@ export default {
             origin: "http://php.javaframework.cn",
             ws: "wss://caipiao.goodluckchina.net:2122",
             trendWs: "http://caipiao.goodluckchina.net:2124",
-            baiduAk: 'gRSmFOB0hvyrNgCykang7lhXHYfVsLZn'
+            baiduAk: "gRSmFOB0hvyrNgCykang7lhXHYfVsLZn"
         } :
         {
             origin: "https://caipiao.goodluckchina.net",
             ws: "wss://caipiao.goodluckchina.net:2122",
             trendWs: "http://caipiao.goodluckchina.net:2124",
-            baiduAk: 'gRSmFOB0hvyrNgCykang7lhXHYfVsLZn'
+            baiduAk: "gRSmFOB0hvyrNgCykang7lhXHYfVsLZn"
         },
     api,
     request(options) {
@@ -133,7 +133,7 @@ export default {
         }).catch(err => {
             this.requestingCtrl("del", _options.url || _options.fullUrl);
             const errString = err.toString();
-            if(errString.includes('timeout') && _options.autoReconnect) {
+            if(errString.includes("timeout") && _options.autoReconnect) {
                 if(_options.reconnect.timeoutReconnectNum < 3) {
                     networkLog("reconnect", "#ffa500", `接口请求${_options.timeout}ms超时，第${_options.reconnect.timeoutReconnectNum + 1}次发起重新请求`);
                     this.http(Object.assign({}, _options, {
@@ -169,7 +169,7 @@ export default {
         });
     },
     responseErrorDist(err) {
-        switch (true) {
+        switch(true) {
             case err.code === "-100":
                 vueObj.$dialog.close();
                 vueObj.$store.dispatch("userLogout");

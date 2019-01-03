@@ -1,5 +1,5 @@
-import Vue from 'vue';
-import Vuex from 'vuex';
+import Vue from "vue";
+import Vuex from "vuex";
 
 import controls from "./modules/controls";
 import user from "./modules/user";

@@ -45,7 +45,7 @@ export default {
 
                 let isX = isNaN(str.slice(-1)); //末位是否是X
                 const idCardMod = idCardWeightSum % 11; //计算出校验码所在数组的位置
-                const idCardLast = isX ? 'X' : parseInt(str.slice(-1)); // 获取最后一位身份证号码
+                const idCardLast = isX ? "X" : parseInt(str.slice(-1)); // 获取最后一位身份证号码
 
                 if(idCardMod === 2) valid = idCardLast.toUpperCase() === "X"; // 如果等于2，则说明校验码是10，身份证号码最后一位应该是X
                 else valid = idCardCheckDigit[idCardMod] === idCardLast; // 用计算出的校验码与最后一位身份证号码匹配，如果一致，说明通过，否则是无效的身份证号码

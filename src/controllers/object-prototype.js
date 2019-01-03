@@ -104,8 +104,8 @@ export default () => {
     /* 数字向上取整（基于位数取整，例如625取整后700，4560取整后5000） */
     Number.prototype.ceil = function ceil() {
         const length = this.toString().length,
-         lengthNum = +`1${Array(length-1).fill(0).join("")}`,
-         floor = this - this % lengthNum;
+            lengthNum = +`1${Array(length - 1).fill(0).join("")}`,
+            floor = this - this % lengthNum;
         return floor + lengthNum;
     }
 }

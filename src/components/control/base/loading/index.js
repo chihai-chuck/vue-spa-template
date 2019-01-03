@@ -1,5 +1,5 @@
-import Vue from 'vue';
-import Loading from './loading.vue';
+import Vue from "vue";
+import Loading from "./loading.vue";
 
 Loading.newInstance = (properties = {}, props = {}) => {
     const Instance = new Vue({

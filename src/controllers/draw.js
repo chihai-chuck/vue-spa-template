@@ -19,7 +19,7 @@ export default {
 
         colorStart.forEach((color, index) => {
             const sColor = +color.toString().trimAll(),
-             eColor = +colorEnd[index].toString().trimAll();
+                eColor = +colorEnd[index].toString().trimAll();
             colorArr.push(Math.round(sColor + (eColor - sColor) * step));
         });
 

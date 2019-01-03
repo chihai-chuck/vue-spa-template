@@ -36,45 +36,45 @@ router.beforeEach((to, from, next) => {
         color: "#ffa500"
     }, from, to);
     const routerNext = url => {
-        if(url === false) {
-            next(false);
-        } else if(from.query.ADTAG && !to.query.ADTAG) {
+            if(url === false) {
+                next(false);
+            } else if(from.query.ADTAG && !to.query.ADTAG) {
                 next({
                     path: url || to.path,
                     query: {
                         ADTAG: from.query.ADTAG
                     }
                 });
-        } else if(url) {
-            next(url);
-        } else {
-            next();
-        }
-    },
-    saveToken = (token = to.query.accessToken) => {
-        if(token && store.state.user.account.token !== token) {
-            store.commit("SET_USER_ACCOUNT", {
-                token
-            });
-            GLOBAL.functions.cache.write("tokenLogin", true);
-        }
-    },
-    appRedirect = () => {
-        if(to.query.platform || store.getters.appRuntime) {
-            if(to.query.platform) {
-                store.commit("SET_APPLICATION_VERSION", to.query.ver);
-                store.commit("SET_APPLICATION_DEVICE", to.query.platform);
-                store.commit("SET_APPLICATION_CHANNEL", to.query.channel);
+            } else if(url) {
+                next(url);
+            } else {
+                next();
             }
-            if(GLOBAL.functions.isTabBar(from.path) && !GLOBAL.functions.isTabBar(to.path)) {
-                GLOBAL.application.appRedirect(location.origin + to.fullPath);
-                routerNext(false);
-                return;
+        },
+        saveToken = (token = to.query.accessToken) => {
+            if(token && store.state.user.account.token !== token) {
+                store.commit("SET_USER_ACCOUNT", {
+                    token
+                });
+                GLOBAL.functions.cache.write("tokenLogin", true);
             }
-            saveToken();
-        }
-        routerNext();
-    };
+        },
+        appRedirect = () => {
+            if(to.query.platform || store.getters.appRuntime) {
+                if(to.query.platform) {
+                    store.commit("SET_APPLICATION_VERSION", to.query.ver);
+                    store.commit("SET_APPLICATION_DEVICE", to.query.platform);
+                    store.commit("SET_APPLICATION_CHANNEL", to.query.channel);
+                }
+                if(GLOBAL.functions.isTabBar(from.path) && !GLOBAL.functions.isTabBar(to.path)) {
+                    GLOBAL.application.appRedirect(location.origin + to.fullPath);
+                    routerNext(false);
+                    return;
+                }
+                saveToken();
+            }
+            routerNext();
+        };
 
     if(to.meta.isLogin) {
         if(store.state.user.account.token) {
